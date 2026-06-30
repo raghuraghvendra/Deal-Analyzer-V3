@@ -101,4 +101,13 @@ Context:
             ""
         ).strip()
 
-        return json.loads(cleaned)
+        try:
+
+            return json.loads(cleaned)
+
+        except json.JSONDecodeError:
+
+            return {
+                "error": True,
+                "message": "The AI returned an invalid JSON response."
+            }

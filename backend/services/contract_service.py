@@ -61,6 +61,15 @@ class ContractAnalysisService:
             text = self.parser.extract_text(pdf_path)
 
             # -----------------------------
+            # Validate Extracted Text
+            # -----------------------------
+            if not text or not text.strip():
+
+                raise ValueError(
+                    "The uploaded PDF does not contain readable text."
+                )
+
+            # -----------------------------
             # Chunk Text
             # -----------------------------
             chunks = self.chunker.create_child_chunks(text)
