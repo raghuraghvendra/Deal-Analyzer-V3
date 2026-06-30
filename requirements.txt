@@ -1,3 +1,5 @@
+streamlit
+google-genai
 pymupdf
 qdrant-client
 sentence-transformers
@@ -5,3 +7,7 @@ rank-bm25
 fastapi
 uvicorn
 python-dotenv
+numpy
+torch
+transformers
+langchain-text-splitters

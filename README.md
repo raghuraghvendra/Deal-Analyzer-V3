@@ -1,182 +1,275 @@
-# 📄 Deal Analyzer V3
+# 🚀 Enterprise AI Contract Intelligence Platform
 
-An enterprise-style AI Contract Intelligence Platform that analyzes legal contracts using Retrieval-Augmented Generation (RAG), Multi-Agent AI, and Large Language Models.
-
-The project is designed with production software engineering principles, making it modular, scalable, and ready for future enterprise integrations such as MCP, Docker deployment, authentication, monitoring, and cloud hosting.
+An enterprise-grade AI-powered contract analysis platform that combines **Retrieval-Augmented Generation (RAG)**, **Multi-Agent AI**, and a **custom MCP-inspired tool architecture** to deliver intelligent legal, financial, and compliance insights from business contracts.
 
 ---
 
 ## ✨ Features
 
-* 📄 PDF Contract Parsing
-* ✂️ Intelligent Text Chunking
-* 🔍 Semantic Search with Qdrant Vector Database
-* 🧠 BGE Embeddings
-* 📚 Retrieval-Augmented Generation (RAG)
+* 📄 Upload and analyze PDF contracts
+* 🔍 Semantic chunking using Recursive Character Text Splitter
+* 🧠 Embedding generation with Sentence Transformers
+* 🗂️ Qdrant Vector Database for semantic retrieval
+* ⚡ Hybrid Retrieval Pipeline (Embeddings + BM25)
 * 🤖 Multi-Agent AI Architecture
-* ⚖️ Legal Risk Analysis
-* 💰 Financial Risk Analysis
-* 🛡️ Compliance Analysis
-* 👨‍⚖️ Judge Agent for Final Contract Intelligence
+
+  * Legal Agent
+  * Financial Agent
+  * Compliance Agent
+  * Judge Agent
+* 🛠️ Custom MCP-inspired Tool Architecture
+* 📚 Company Policy Retrieval Tool
+* 🎯 Intelligent Risk Assessment
 * 📊 Interactive Streamlit Dashboard
-* 🏗️ Modular Enterprise Architecture
+* 🐳 Dockerized Deployment
 
 ---
 
-## 🏛️ System Architecture
+# 🏗️ System Architecture
 
 ```text
-                 Streamlit UI
-                       │
-                 pipeline.py
-                       │
-         ContractAnalysisService
-                       │
-        ┌──────────────┴──────────────┐
-        │                             │
- Document Processing          Agent Orchestrator
-(Parse → Chunk → Embed)               │
-                                      ▼
-          ┌─────────────┬─────────────┬─────────────┐
-          ▼             ▼             ▼
-     Legal Agent   Financial Agent   Compliance Agent
-          │             │             │
-          └─────────────┼─────────────┘
-                        ▼
-                  Judge Agent
-                        ▼
-              Final Contract Report
-                        ▼
-                 Streamlit Dashboard
+                     ┌────────────────────────┐
+                     │     Upload PDF         │
+                     └──────────┬─────────────┘
+                                │
+                                ▼
+                     ┌────────────────────────┐
+                     │      PDF Parser        │
+                     └──────────┬─────────────┘
+                                │
+                                ▼
+                     ┌────────────────────────┐
+                     │    Smart Chunking      │
+                     └──────────┬─────────────┘
+                                │
+                                ▼
+                     ┌────────────────────────┐
+                     │  Embedding Generation  │
+                     └──────────┬─────────────┘
+                                │
+                                ▼
+                     ┌────────────────────────┐
+                     │ Qdrant Vector Database │
+                     └──────────┬─────────────┘
+                                │
+                                ▼
+                     ┌────────────────────────┐
+                     │  Knowledge Service     │
+                     └──────────┬─────────────┘
+                                │
+                                ▼
+                    ┌──────────────────────────┐
+                    │   Agent Orchestrator     │
+                    └──────────┬───────────────┘
+                               │
+          ┌────────────────────┼────────────────────┐
+          ▼                    ▼                    ▼
+ ┌────────────────┐   ┌────────────────┐   ┌─────────────────┐
+ │  Legal Agent   │   │ Financial Agent│   │ Compliance Agent│
+ └────────┬───────┘   └────────┬───────┘   └────────┬────────┘
+          │                    │                    │
+          └────────────────────┼────────────────────┘
+                               ▼
+                     ┌────────────────────────┐
+                     │      Judge Agent       │
+                     └──────────┬─────────────┘
+                                ▼
+                     ┌────────────────────────┐
+                     │   Streamlit Dashboard  │
+                     └────────────────────────┘
 ```
 
 ---
 
-## 🧠 AI Pipeline
+# 🧠 Multi-Agent Workflow
 
-1. Upload PDF Contract
-2. Extract Contract Text
-3. Chunk Document
-4. Generate Embeddings
-5. Store in Qdrant
-6. Retrieve Relevant Context
-7. Legal Agent Analysis
-8. Financial Agent Analysis
-9. Compliance Agent Analysis
-10. Judge Agent Synthesizes Final Report
-11. Display Results in Streamlit Dashboard
+### ⚖️ Legal Agent
+
+* Liability Analysis
+* Termination Clauses
+* Governing Law
+* Confidentiality
+* Legal Risk Assessment
+
+### 💰 Financial Agent
+
+* Payment Terms
+* Financial Obligations
+* Pricing Risks
+* Late Payment Clauses
+* Financial Risk Analysis
+
+### 🛡️ Compliance Agent
+
+* Data Privacy
+* Regulatory Compliance
+* Intellectual Property
+* Security Requirements
+* Compliance Risk Analysis
+
+### 👨‍⚖️ Judge Agent
+
+Combines all specialist reports into a final executive contract assessment including:
+
+* Overall Risk Score
+* Financial Risk
+* Payment Summary
+* Termination Summary
+* Missing Clauses
+* Red Flags
+* Recommendations
 
 ---
 
-## 🛠️ Tech Stack
+# 🛠️ MCP-inspired Tool Architecture
 
-### AI & Machine Learning
+The project includes a lightweight MCP-inspired tool architecture that enables agents to access external tools before generating their final analysis.
 
-* Google Gemini 2.5 Flash
-* Sentence Transformers (BGE Small)
-* Cross Encoder Reranker
+Current Tool:
 
-### Vector Database
+* Company Policy Search Tool
+
+Architecture:
+
+```text
+Legal Agent
+      │
+      ▼
+Tool Decision Engine
+      │
+      ▼
+MCP Client
+      │
+      ▼
+MCP Server
+      │
+      ▼
+Company Policy Tool
+      │
+      ▼
+Policy Result
+      │
+      ▼
+LLM Analysis
+```
+
+---
+
+# 💻 Tech Stack
+
+### Languages
+
+* Python
+
+### AI & LLM
+
+* Google Gemini
+* Sentence Transformers
+
+### Retrieval
 
 * Qdrant
+* BM25
+* Vector Embeddings
 
 ### Backend
 
-* Python
-* FastAPI (planned)
+* FastAPI
 * Streamlit
 
-### Libraries
+### PDF Processing
 
 * PyMuPDF
-* Qdrant Client
-* Sentence Transformers
-* Rank BM25
-* Python Dotenv
 
----
-
-## 📂 Project Structure
-
-```
-Deal_Analyzer_V3/
-
-backend/
-│
-├── agents/
-├── ingestion/
-├── llm/
-├── prompts/
-├── retrieval/
-├── services/
-├── utils/
-└── vectorstore/
-
-assets/
-docs/
-tests/
-
-app.py
-pipeline.py
-ui.py
-config.py
-
-requirements.txt
-README.md
-.gitignore
-```
-
----
-
-## 🚀 Future Roadmap
-
-### Phase 1 ✅
-
-* RAG Pipeline
-* Vector Search
-* Streamlit Dashboard
-* Multi-Agent Architecture
-
-### Phase 2
-
-* Model Context Protocol (MCP)
-* Tool Calling
-* Agent Memory
-
-### Phase 3
-
-* JWT Authentication
-* Prompt Injection Protection
-* Input Validation
-* Logging & Monitoring
-
-### Phase 4
+### Deployment
 
 * Docker
 * Docker Compose
-* CI/CD
+
+---
+
+# 📂 Project Structure
+
+```text
+Deal_Analyzer_V3/
+
+├── backend/
+│   ├── agents/
+│   ├── ingestion/
+│   ├── llm/
+│   ├── mcp/
+│   ├── prompts/
+│   ├── retrieval/
+│   ├── services/
+│   ├── utils/
+│   └── vectorstore/
+│
+├── assets/
+├── docs/
+├── tests/
+│
+├── app.py
+├── pipeline.py
+├── ui.py
+├── config.py
+│
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+└── README.md
+```
+
+---
+
+# 🚀 Installation
+
+## Clone Repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/Deal-Analyzer-V3.git
+
+cd Deal-Analyzer-V3
+```
+
+---
+
+## Local Setup
+
+```bash
+pip install -r requirements.txt
+
+streamlit run app.py
+```
+
+---
+
+## Docker
+
+```bash
+docker compose up --build
+```
+
+---
+
+# 📈 Future Improvements
+
+* JWT Authentication
+* Prompt Injection Protection
+* Role-Based Access Control
+* Official MCP SDK Integration
+* Additional AI Tools
 * Cloud Deployment
+* Monitoring & Logging
+* Advanced Agent Tool Selection
 
 ---
 
-## 📌 Project Status
-
-🚧 Actively under development.
-
-Current focus:
-
-* Enterprise Multi-Agent AI
-* Production Software Architecture
-* MCP Integration
-* Security
-* Docker Deployment
-
----
-
-## 👨‍💻 Author
+# 👨‍💻 Author
 
 **Raghvendra Singh**
 
-AI / Machine Learning Engineer
+AI / ML Engineer | Generative AI | RAG | Multi-Agent Systems
 
-Focused on building production-ready AI systems using RAG, Agentic AI, and modern software architecture.
+---
+
+# ⭐ If you found this project interesting, consider giving it a star!
