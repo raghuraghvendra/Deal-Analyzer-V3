@@ -34,10 +34,13 @@ class AgentOrchestrator:
     def execute_workflow(self):
 
         legal_report = self.legal.execute()
+        print("\nLEGAL REPORT:\n", legal_report)
 
         financial_report = self.financial.execute()
+        print("\nFINANCIAL REPORT:\n", financial_report)
 
         compliance_report = self.compliance.execute()
+        print("\nCOMPLIANCE REPORT:\n", compliance_report)
 
         reports = {
             "legal": legal_report,
@@ -45,4 +48,7 @@ class AgentOrchestrator:
             "compliance": compliance_report
         }
 
-        return self.judge.execute(reports)
+        final_report = self.judge.execute(reports)
+        print("\nFINAL REPORT:\n", final_report)
+
+        return final_report

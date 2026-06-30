@@ -1,5 +1,6 @@
 from google import genai
 import json
+
 from backend.prompts.analyzer_prompt import build_prompt
 
 
@@ -20,9 +21,12 @@ class DealAnalyzer:
     ):
 
         # -------------------------------------------------
-        # Case 1 : MCP + RAG Context (Specialist Agents)
+        # Case 1 : Specialist Agents (RAG + MCP)
         # -------------------------------------------------
-        if isinstance(context, dict):
+        if (
+            isinstance(context, dict)
+            and "retrieved_context" in context
+        ):
 
             final_context = ""
 
@@ -33,7 +37,9 @@ class DealAnalyzer:
 
             for chunk in retrieved_chunks:
 
-                final_context += chunk.payload["text"] + "\n\n"
+                final_context += (
+                    chunk.payload["text"] + "\n\n"
+                )
 
             tool_results = context.get(
                 "tool_results",
@@ -42,13 +48,17 @@ class DealAnalyzer:
 
             if tool_results:
 
-                final_context += "\n\n===== TOOL RESULTS =====\n"
+                final_context += (
+                    "\n\n===== TOOL RESULTS =====\n"
+                )
 
                 for tool_name, result in tool_results.items():
 
-                    final_context += (
-                        f"\n{tool_name}:\n{result}\n"
-                    )
+                    if result:
+
+                        final_context += (
+                            f"\n{tool_name}:\n{result}\n"
+                        )
 
             prompt = build_prompt(
                 prompt,
@@ -56,7 +66,7 @@ class DealAnalyzer:
             )
 
         # -------------------------------------------------
-        # Case 2 : RAG Only (Backward Compatibility)
+        # Case 2 : Old RAG Pipeline
         # -------------------------------------------------
         elif isinstance(context, list):
 
@@ -81,9 +91,13 @@ class DealAnalyzer:
             prompt = f"""
 {prompt}
 
-Context:
+Specialist Reports:
 
 {json.dumps(context, indent=2)}
+
+Combine these reports into one final enterprise analysis.
+
+Return ONLY valid JSON.
 """
 
         response = self.client.models.generate_content(
@@ -109,5 +123,6 @@ Context:
 
             return {
                 "error": True,
-                "message": "The AI returned an invalid JSON response."
+                "message": "The AI returned an invalid JSON response.",
+                "raw_response": cleaned
             }
