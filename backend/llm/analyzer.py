@@ -19,20 +19,63 @@ class DealAnalyzer:
         context
     ):
 
-        # If context comes from Qdrant (list of chunks)
-        if isinstance(context, list):
+        # -------------------------------------------------
+        # Case 1 : MCP + RAG Context (Specialist Agents)
+        # -------------------------------------------------
+        if isinstance(context, dict):
 
             final_context = ""
 
-            for chunk in context:
+            retrieved_chunks = context.get(
+                "retrieved_context",
+                []
+            )
+
+            for chunk in retrieved_chunks:
+
                 final_context += chunk.payload["text"] + "\n\n"
+
+            tool_results = context.get(
+                "tool_results",
+                {}
+            )
+
+            if tool_results:
+
+                final_context += "\n\n===== TOOL RESULTS =====\n"
+
+                for tool_name, result in tool_results.items():
+
+                    final_context += (
+                        f"\n{tool_name}:\n{result}\n"
+                    )
 
             prompt = build_prompt(
                 prompt,
                 final_context
             )
 
-        # If context is already a dictionary/string
+        # -------------------------------------------------
+        # Case 2 : RAG Only (Backward Compatibility)
+        # -------------------------------------------------
+        elif isinstance(context, list):
+
+            final_context = ""
+
+            for chunk in context:
+
+                final_context += (
+                    chunk.payload["text"] + "\n\n"
+                )
+
+            prompt = build_prompt(
+                prompt,
+                final_context
+            )
+
+        # -------------------------------------------------
+        # Case 3 : Judge Agent
+        # -------------------------------------------------
         else:
 
             prompt = f"""
@@ -48,7 +91,14 @@ Context:
             contents=prompt
         )
 
-        cleaned = response.text.replace("```json", "")
-        cleaned = cleaned.replace("```", "").strip()
+        cleaned = response.text.replace(
+            "```json",
+            ""
+        )
+
+        cleaned = cleaned.replace(
+            "```",
+            ""
+        ).strip()
 
         return json.loads(cleaned)
