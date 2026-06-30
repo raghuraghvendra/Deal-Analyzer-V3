@@ -53,8 +53,6 @@ if uploaded_file:
 
     st.success("✅ PDF Uploaded Successfully!")
 
-    st.success("✅ PDF Uploaded Successfully!")
-
     if st.button("Analyze Contract"):
 
         try:
