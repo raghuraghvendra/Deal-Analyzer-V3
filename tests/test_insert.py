@@ -7,7 +7,7 @@ parser = PDFParser()
 chunker = Chunker()
 embedder = EmbeddingModel()
 
-text = parser.extract_text("sample_contract.pdf")
+text = parser.extract_text("assets/Sample_contract.pdf")
 
 chunks = chunker.create_child_chunks(text)
 

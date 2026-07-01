@@ -4,5 +4,5 @@ from abc import ABC, abstractmethod
 class BaseAgent(ABC):
 
     @abstractmethod
-    def execute(self, context):
+    def execute(self, *args, **kwargs):
         pass
